@@ -1,5 +1,6 @@
 # Transaction commissions counter
-This is solution to the task: https://gist.github.com/mariusbalcytis/e73370f4d2bda302c7bd867dfeef9751
+This is solution to the task: https://gist.github.com/mariusbalcytis/e73370f4d2bda302c7bd867dfeef9751.
+
 The app is based on PHP 7.4. To set it up download the project and run:
 ```
 composer install
