@@ -16,4 +16,4 @@ Execute unit tests with command:
 ./vendor/bin/phpunit
 ```
 ## Notes
-If you notice issue with file reading, adjust `NEW_LINE_DELIMITER` in `app/Repository/FileReader.php`, it is recognizing end-of-lines by `\r\n` or set EOL type in your input files accordingly.
+If you notice issue with file reading, adjust `NEW_LINE_DELIMITER` in `app/Repository/FileReader.php`, it is recognizing end-of-lines by `\r\n`. Or set EOL type in your input files accordingly.
