@@ -14,9 +14,9 @@ abstract class FileReader
     /**
      * @param string $filename
      *
-     * @return array
+     * @return string[]
      */
-    protected function getFileByLines(string $filename): array
+    function getFileByLines(string $filename): array
     {
         $content = file_exists($filename) ? file_get_contents($filename) : '';
         if (empty($content)) {

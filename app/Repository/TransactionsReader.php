@@ -11,7 +11,7 @@ class TransactionsReader extends FileReader
     /**
      * @param string $filename
      *
-     * @return array
+     * @return Transaction[]
      */
     public function readRecords(string $filename): array
     {

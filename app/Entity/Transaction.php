@@ -22,9 +22,9 @@ class Transaction
     private $currency;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getBin(): string
+    public function getBin(): ?string
     {
         return $this->bin;
     }
@@ -34,7 +34,7 @@ class Transaction
      *
      * @return self
      */
-    public function setBin(?string $bin): self
+    public function setBin(string $bin): self
     {
         $this->bin = $bin;
 
@@ -42,9 +42,9 @@ class Transaction
     }
 
     /**
-     * @return float
+     * @return null|float
      */
-    public function getAmount(): float
+    public function getAmount(): ?float
     {
         return $this->amount;
     }
@@ -62,9 +62,9 @@ class Transaction
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getCurrency(): string
+    public function getCurrency(): ?string
     {
         return $this->currency;
     }

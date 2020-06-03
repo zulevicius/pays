@@ -8,7 +8,7 @@ composer install
 
 Launch the app on CLI by executing `app.php` and providing input file, e.g.:
 ```
- php app.php input.txt
+php app.php input.txt
 ```
 
 Execute unit tests with command:

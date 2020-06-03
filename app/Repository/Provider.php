@@ -5,7 +5,7 @@ namespace App\Repository;
 
 use App\Exception\InvalidArgumentException;
 
-abstract class UrlProvider extends FileReader
+abstract class Provider extends FileReader
 {
 
     private const PROPERTIES_FILE = __DIR__ . '\..\..\properties.conf';
@@ -16,11 +16,28 @@ abstract class UrlProvider extends FileReader
     private $url;
 
     /**
-     * @param string $urlProp
+     * @var string
      */
-    function __construct($urlProp)
+    private $providingMethod;
+
+    /**
+     * @param string $urlProp
+     * @param string $methodProp
+     */
+    public function __construct(string $urlProp, string $methodProp)
     {
         $this->url = $this->getProp($urlProp);
+        $this->providingMethod = $this->getProp($methodProp);
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return bool|string
+     */
+    function getRemoteFileContents(string $path = '')
+    {
+        return @file_get_contents($this->getUrl() . $path);
     }
 
     /**
@@ -44,8 +61,16 @@ abstract class UrlProvider extends FileReader
     /**
      * @return string
      */
-    protected function getUrl(): string
+    private function getUrl(): string
     {
         return $this->url;
+    }
+
+    /**
+     * @return string
+     */
+    function getProvidingMethod(): string
+    {
+        return $this->providingMethod;
     }
 }

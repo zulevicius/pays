@@ -3,9 +3,10 @@
 namespace App\Repository;
 
 
+use App\Exception\InvalidArgumentException;
 use App\Exception\RemoteServiceException;
 
-class BinProvider extends UrlProvider
+class BinProvider extends Provider
 {
     private const EU_COUNTRIES = [
         'AT',
@@ -37,21 +38,29 @@ class BinProvider extends UrlProvider
         'SK',
     ];
 
-    private const URL_PROP = 'bin_provider';
+    private const URL_PROP = 'bin_provider_url';
 
-    function __construct()
+    private const METHOD_PROP = 'bin_provider_method';
+
+    public function __construct()
     {
-        parent::__construct(self::URL_PROP);
+        parent::__construct(self::URL_PROP, self::METHOD_PROP);
     }
 
     /**
      * @param string $bin
      *
-     * @return bool
+     * @throws InvalidArgumentException
+     *
+     * @return null|bool
      */
     public function isBinFromEu(string $bin): bool
     {
-        return in_array($this->getBinCountry($bin), self::EU_COUNTRIES);
+        $method = $this->getProvidingMethod();
+        if (!method_exists($this, $method)) {
+            throw new InvalidArgumentException("Currency exchange rate method `$method` does not exist");
+        }
+        return in_array($this->$method($bin), self::EU_COUNTRIES);
     }
 
     /**
@@ -61,13 +70,18 @@ class BinProvider extends UrlProvider
      *
      * @return string
      */
-    private function getBinCountry(string $bin): string
+    private function getBinCountryFromService(string $bin): string
     {
-        $binContents = file_get_contents($this->getUrl() . '/' . $bin);
+        $binContents = $this->getRemoteFileContents('/' . $bin);
         if ($binContents === false) {
-            throw new RemoteServiceException("BIN `$bin` not found");
+            throw new RemoteServiceException("BIN service unreachable");
         }
         $binData = json_decode($binContents);
-        return strtoupper($binData->country->alpha2);
+        if (isset($binData->country)) {
+            if (isset($binData->country->alpha2)) {
+                return strtoupper($binData->country->alpha2);
+            }
+        }
+        throw new RemoteServiceException("BIN `$bin` not found");
     }
 }
